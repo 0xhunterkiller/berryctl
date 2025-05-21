@@ -1,9 +1,11 @@
 package cmd
 
 import (
+	"encoding/json"
 	"fmt"
 	"strings"
 
+	"github.com/0xhunterkiller/berry/pkgs/models"
 	"github.com/spf13/cobra"
 )
 
@@ -26,13 +28,24 @@ var createResourceCmd = &cobra.Command{
 			verbs = strings.Split(verbsStr, ",")
 		}
 
-		fmt.Printf("Name: %s\n", name)
-		if desc != "" {
-			fmt.Printf("Description: %s\n", desc)
+		// fmt.Printf("Name: %s\n", name)
+		// if desc != "" {
+		// 	fmt.Printf("Description: %s\n", desc)
+		// }
+		// if len(verbs) > 0 {
+		// 	fmt.Printf("Verbs: %s\n", strings.Join(verbs, ", "))
+		// }
+
+		res, err := models.NewResource("v1", name, desc, verbs)
+		if err != nil {
+			panic(err.Error())
 		}
-		if len(verbs) > 0 {
-			fmt.Printf("Verbs: %s\n", strings.Join(verbs, ", "))
+
+		jsonData, err := json.Marshal(res)
+		if err != nil {
+			panic(err)
 		}
+		fmt.Println(string(jsonData))
 	},
 }
 
