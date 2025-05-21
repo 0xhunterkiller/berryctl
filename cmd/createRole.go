@@ -1,9 +1,11 @@
 package cmd
 
 import (
+	"encoding/json"
 	"fmt"
 	"strings"
 
+	"github.com/0xhunterkiller/berry/pkgs/models"
 	"github.com/spf13/cobra"
 )
 
@@ -18,18 +20,28 @@ var createRoleCmd = &cobra.Command{
 		accessList, _ := cmd.Flags().GetStringArray("access")
 
 		accessMap := parseAccess(accessList)
+		resourceItems := []models.ResourceItem{}
 
-		// Output
-		fmt.Printf("Name: %s\n", name)
-		if desc != "" {
-			fmt.Printf("Description: %s\n", desc)
-		}
 		if len(accessMap) > 0 {
-			fmt.Println("Access Rules:")
 			for resource, verbs := range accessMap {
-				fmt.Printf("  %s: %s\n", resource, strings.Join(verbs, ", "))
+				resItem, err := models.NewResourceItem(resource, verbs)
+				if err != nil {
+					panic(err.Error())
+				}
+				resourceItems = append(resourceItems, *resItem)
 			}
 		}
+
+		res, err := models.NewRole("v1", name, desc, resourceItems)
+		if err != nil {
+			panic(err.Error())
+		}
+
+		jsonData, err := json.Marshal(res)
+		if err != nil {
+			panic(err)
+		}
+		fmt.Println(string(jsonData))
 	},
 }
 

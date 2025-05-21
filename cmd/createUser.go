@@ -1,9 +1,11 @@
 package cmd
 
 import (
+	"encoding/json"
 	"fmt"
 	"strings"
 
+	"github.com/0xhunterkiller/berry/pkgs/models"
 	"github.com/spf13/cobra"
 )
 
@@ -21,17 +23,16 @@ var createUserCmd = &cobra.Command{
 		if roles != "" {
 			rolesList = strings.Split(roles, ",")
 		}
-		// Output
-		fmt.Printf("Name: %s\n", name)
-		if desc != "" {
-			fmt.Printf("Description: %s\n", desc)
+		res, err := models.NewUser("v1", name, desc, rolesList)
+		if err != nil {
+			panic(err.Error())
 		}
-		if len(rolesList) > 0 {
-			fmt.Println("Roles:")
-			for _, role := range rolesList {
-				fmt.Printf("- %s\n", role)
-			}
+
+		jsonData, err := json.Marshal(res)
+		if err != nil {
+			panic(err)
 		}
+		fmt.Println(string(jsonData))
 	},
 }
 
