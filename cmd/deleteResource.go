@@ -1,6 +1,3 @@
-/*
-Copyright © 2025 NAME HERE <EMAIL ADDRESS>
-*/
 package cmd
 
 import (
@@ -11,8 +8,8 @@ import (
 
 // deleteResourceCmd represents the deleteResource command
 var deleteResourceCmd = &cobra.Command{
-	Use:   "resource [name]", 
-	Args: cobra.ExactArgs(1),
+	Use:   "resource [name]",
+	Args:  cobra.ExactArgs(1),
 	Short: "Delete a resource",
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("Name of the Resource:", args[0])
@@ -21,7 +18,8 @@ var deleteResourceCmd = &cobra.Command{
 			fmt.Println("Resource deletion confirmed.")
 		} else {
 			fmt.Println("Resource deletion not confirmed. Use --yes to skip confirmation.")
-		}	},
+		}
+	},
 }
 
 func init() {

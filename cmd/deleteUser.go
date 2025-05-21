@@ -1,6 +1,3 @@
-/*
-Copyright © 2025 NAME HERE <EMAIL ADDRESS>
-*/
 package cmd
 
 import (
@@ -12,7 +9,7 @@ import (
 // deleteUserCmd represents the deleteUser command
 var deleteUserCmd = &cobra.Command{
 	Use:   "user [Name of the User]",
-	Args: cobra.ExactArgs(1),
+	Args:  cobra.ExactArgs(1),
 	Short: "Delete a user",
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("Name of the User:", args[0])
@@ -27,6 +24,6 @@ var deleteUserCmd = &cobra.Command{
 
 func init() {
 	deleteCmd.AddCommand(deleteUserCmd)
-	
+
 	deleteUserCmd.Flags().BoolP("yes", "y", false, "Skip Confirmation by setting this flag")
 }

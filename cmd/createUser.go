@@ -1,6 +1,3 @@
-/*
-Copyright © 2025 NAME HERE <EMAIL ADDRESS>
-*/
 package cmd
 
 import (
@@ -13,7 +10,7 @@ import (
 // createUserCmd represents the createUser command
 var createUserCmd = &cobra.Command{
 	Use:   "user [Name of the User]",
-	Args: cobra.ExactArgs(1),
+	Args:  cobra.ExactArgs(1),
 	Short: "Create a new user",
 	Run: func(cmd *cobra.Command, args []string) {
 		// write this function to create a user

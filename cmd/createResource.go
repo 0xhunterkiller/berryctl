@@ -1,6 +1,3 @@
-/*
-Copyright © 2025 NAME HERE <EMAIL ADDRESS>
-*/
 package cmd
 
 import (
@@ -13,7 +10,7 @@ import (
 // createResourceCmd represents the createResource command
 var createResourceCmd = &cobra.Command{
 	Use:   "resource [Name of the Resource]",
-	Args: cobra.ExactArgs(1),
+	Args:  cobra.ExactArgs(1),
 	Short: "Create a new resource",
 	Run: func(cmd *cobra.Command, args []string) {
 		name := args[0]
