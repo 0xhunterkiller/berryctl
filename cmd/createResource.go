@@ -28,17 +28,9 @@ var createResourceCmd = &cobra.Command{
 			verbs = strings.Split(verbsStr, ",")
 		}
 
-		// fmt.Printf("Name: %s\n", name)
-		// if desc != "" {
-		// 	fmt.Printf("Description: %s\n", desc)
-		// }
-		// if len(verbs) > 0 {
-		// 	fmt.Printf("Verbs: %s\n", strings.Join(verbs, ", "))
-		// }
-
 		res, err := models.NewResource("v1", name, desc, verbs)
 		if err != nil {
-			panic(err.Error())
+			panic(err)
 		}
 
 		jsonData, err := json.Marshal(res)

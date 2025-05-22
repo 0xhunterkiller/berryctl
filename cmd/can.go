@@ -1,8 +1,6 @@
 package cmd
 
 import (
-	"fmt"
-
 	"github.com/spf13/cobra"
 )
 
@@ -12,11 +10,11 @@ var canCmd = &cobra.Command{
 	Args:  cobra.ExactArgs(1),
 	Short: "check the access level of a user",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("can called")
+		cmd.Help()
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(canCmd)
-	canCmd.Flags().String("do", "", "resource|verb - in this format")
+	canCmd.Flags().StringArray("access", []string{}, "Access rule in format resource=verb1,verb2 (repeatable)")
 }

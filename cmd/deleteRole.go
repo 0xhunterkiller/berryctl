@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/spf13/cobra"
 )
@@ -12,12 +13,20 @@ var deleteRoleCmd = &cobra.Command{
 	Args:  cobra.ExactArgs(1),
 	Short: "Delete a role",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("Name of the Role:", args[0])
+		name := args[0]
 		yes, _ := cmd.Flags().GetBool("yes")
-		if yes {
+		if !yes {
+			var input string
+			fmt.Printf("Are you sure you want to delete role '%s'? [yes/No]: ", name)
+			fmt.Scanln(&input)
+
+			if strings.ToLower(input) != "y" && strings.ToLower(input) != "yes" {
+				fmt.Println("Aborted: Role deletion not confirmed.")
+				return
+			}
 			fmt.Println("Role deletion confirmed.")
 		} else {
-			fmt.Println("Role deletion not confirmed. Use --yes to skip confirmation.")
+			fmt.Printf("Role: %s deletion confirmed via --yes flag.\n", name)
 		}
 	},
 }

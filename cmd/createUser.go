@@ -15,7 +15,6 @@ var createUserCmd = &cobra.Command{
 	Args:  cobra.ExactArgs(1),
 	Short: "Create a new user",
 	Run: func(cmd *cobra.Command, args []string) {
-		// write this function to create a user
 		name := args[0]
 		desc, _ := cmd.Flags().GetString("desc")
 		roles, _ := cmd.Flags().GetString("roles")
@@ -25,7 +24,7 @@ var createUserCmd = &cobra.Command{
 		}
 		res, err := models.NewUser("v1", name, desc, rolesList)
 		if err != nil {
-			panic(err.Error())
+			panic(err)
 		}
 
 		jsonData, err := json.Marshal(res)

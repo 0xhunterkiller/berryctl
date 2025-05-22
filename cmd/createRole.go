@@ -3,7 +3,6 @@ package cmd
 import (
 	"encoding/json"
 	"fmt"
-	"strings"
 
 	"github.com/0xhunterkiller/berry/pkgs/models"
 	"github.com/spf13/cobra"
@@ -26,7 +25,7 @@ var createRoleCmd = &cobra.Command{
 			for resource, verbs := range accessMap {
 				resItem, err := models.NewResourceItem(resource, verbs)
 				if err != nil {
-					panic(err.Error())
+					panic(err)
 				}
 				resourceItems = append(resourceItems, *resItem)
 			}
@@ -34,7 +33,7 @@ var createRoleCmd = &cobra.Command{
 
 		res, err := models.NewRole("v1", name, desc, resourceItems)
 		if err != nil {
-			panic(err.Error())
+			panic(err)
 		}
 
 		jsonData, err := json.Marshal(res)
@@ -50,24 +49,4 @@ func init() {
 
 	createRoleCmd.Flags().StringP("desc", "d", "", "Description of the Role")
 	createRoleCmd.Flags().StringArray("access", []string{}, "Access rule in format resource=verb1,verb2 (repeatable)")
-}
-
-func parseAccess(entries []string) map[string][]string {
-	accessMap := make(map[string][]string)
-
-	for _, entry := range entries {
-		parts := strings.SplitN(entry, "=", 2)
-		if len(parts) != 2 {
-			fmt.Printf("Skipping invalid access entry: %s (expected format: resource=verb1,verb2)\n", entry)
-			continue
-		}
-		resource := strings.TrimSpace(parts[0])
-		verbs := strings.Split(parts[1], ",")
-		for i := range verbs {
-			verbs[i] = strings.TrimSpace(verbs[i])
-		}
-		accessMap[resource] = verbs
-	}
-
-	return accessMap
 }

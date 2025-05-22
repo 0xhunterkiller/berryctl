@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/spf13/cobra"
 )
@@ -12,12 +13,20 @@ var deleteUserCmd = &cobra.Command{
 	Args:  cobra.ExactArgs(1),
 	Short: "Delete a user",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("Name of the User:", args[0])
+		name := args[0]
 		yes, _ := cmd.Flags().GetBool("yes")
-		if yes {
+		if !yes {
+			var input string
+			fmt.Printf("Are you sure you want to delete user '%s'? [yes/No]: ", name)
+			fmt.Scanln(&input)
+
+			if strings.ToLower(input) != "y" && strings.ToLower(input) != "yes" {
+				fmt.Println("Aborted: User deletion not confirmed.")
+				return
+			}
 			fmt.Println("User deletion confirmed.")
 		} else {
-			fmt.Println("User deletion not confirmed. Use --yes to skip confirmation.")
+			fmt.Printf("User: %s deletion confirmed via --yes flag.\n", name)
 		}
 	},
 }
